@@ -1,0 +1,3 @@
+[submodule "alpaca/Alpaca"]
+	path = alpaca/Alpaca
+	url = https://github.com/Islandora/Alpaca.git

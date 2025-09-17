@@ -1,0 +1,16 @@
+services:
+  app:
+    build: alpaca
+    container_name: alpaca
+    ports:
+      - "8080:8080"
+    depends_on:
+      - activemq
+
+  activemq:
+    image: apache/activemq-classic:latest
+    container_name: activemq
+    ports:
+      - "61616:61616"   # JMS
+      - "8161:8161"     # Web console
+

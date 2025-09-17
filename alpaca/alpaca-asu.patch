@@ -1,0 +1,16 @@
+diff --git a/islandora-connector-derivative/src/main/java/ca/islandora/alpaca/connector/derivative/DerivativeConnector.java b/islandora-connector-derivative/src/main/java/ca/islandora/alpaca/connector/derivative/DerivativeConnector.java
+index 4d2f956..7e43fdb 100644
+--- a/islandora-connector-derivative/src/main/java/ca/islandora/alpaca/connector/derivative/DerivativeConnector.java
++++ b/islandora-connector-derivative/src/main/java/ca/islandora/alpaca/connector/derivative/DerivativeConnector.java
+@@ -112,6 +112,11 @@ public class DerivativeConnector extends RouteBuilder {
+             .setHeader("Accept", simple("${exchangeProperty.event.attachment.content.mimetype}"))
+             .setHeader("X-Islandora-Args", simple("${exchangeProperty.event.attachment.content.args}"))
+             .setHeader("Apix-Ldp-Resource", simple("${exchangeProperty.event.attachment.content.sourceUri}"))
++            .setHeader(
++                "X-Islandora-FileUploadUri",
++                simple("${exchangeProperty.event.attachment.content.fileUploadUri}")
++            )
++            .setHeader("X-Islandora-Destination", simple("${exchangeProperty.event.attachment.content.destinationUri}"))
+             .setBody(simple("${null}"))
+             .to(outputStream)
+ 
