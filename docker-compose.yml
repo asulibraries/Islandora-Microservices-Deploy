@@ -1,6 +1,6 @@
 services:
   app:
-    build: alpaca
+    image: islandora/alpaca:latest
     container_name: alpaca
     ports:
       - "8080:8080"
@@ -14,3 +14,32 @@ services:
       - "61616:61616"   # JMS
       - "8161:8161"     # Web console
 
+  awstranscribe:
+    image: islandora/awstranscribe:latest
+    container_name: awstranscribe
+    expose:
+      - 8000
+
+  ffmpeg:
+    image: islandora/ffmpeg:latest
+    container_name: ffmpeg
+    expose:
+      - 8000
+
+  imagemagick:
+    image: islandora/imagemagick:latest
+    container_name: imagemagick
+    expose:
+      - 8000
+    
+  tesseract:
+    image: islandora/tesseract:latest
+    container_name: tesseract
+    expose:
+      - 8080
+
+  fits:
+    image: islandora/fits:latest
+    container_name: fits
+    expose:
+      - 8080

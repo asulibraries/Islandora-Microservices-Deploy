@@ -1,14 +1,8 @@
-# Stage 1: Build the application
+# Build Alpaca with our local patch
 FROM openjdk:11 AS build
 WORKDIR /app
-#COPY gradlew .
-#COPY gradle gradle
-#COPY build.gradle .
-#COPY gradle.properties .
-#COPY settings.gradle .
-#COPY islandora* .
 
-COPY Alpaca/. .
+RUN git clone https://github.com/Islandora/Alpaca.git .
 
 COPY alpaca-asu.patch .
 
@@ -17,7 +11,7 @@ RUN chmod +x gradlew
 ENV GRADLE_USER_HOME=/app/.gradle
 RUN ./gradlew --stacktrace  clean build shadowJar --no-daemon
 
-# Stage 2: Create the final image
+# Build the Alpaca image
 FROM openjdk:11
 WORKDIR /app
 
@@ -25,8 +19,6 @@ COPY --from=build /app/islandora-alpaca-app/build/libs/islandora-alpaca-*-all.ja
 
 COPY alpaca.properties .
 
-EXPOSE 8080
-
-ENV ALPACA_LOG_LEVEL=DEBUG
+ENV ALPACA_LOG_LEVEL=INFO
 
 ENTRYPOINT ["java", "-jar", "/app/alpaca.jar", "-c", "/app/alpaca.properties"]
