@@ -11,8 +11,9 @@ services:
     image: apache/activemq-classic:latest
     container_name: activemq
     ports:
-      - "61616:61616"   # JMS
-      - "8161:8161"     # Web console
+      - "6163:61613" # STOMP
+      - "6166:61616" # JMS
+      - "8161:8161"   # Web console
 
   awstranscribe:
     image: islandora/awstranscribe:latest
@@ -25,18 +26,24 @@ services:
     container_name: ffmpeg
     expose:
       - 8000
+    environment:
+      - SKIP_JWT_VERIFY=true
 
   imagemagick:
     image: islandora/imagemagick:latest
     container_name: imagemagick
     expose:
       - 8000
+    environment:
+      - SKIP_JWT_VERIFY=true
     
   tesseract:
     image: islandora/tesseract:latest
     container_name: tesseract
     expose:
       - 8080
+    environment:
+      - SKIP_JWT_VERIFY=true
 
   fits:
     image: islandora/fits:latest
