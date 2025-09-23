@@ -1,6 +1,8 @@
 # Build Alpaca with our local patch
-FROM openjdk:11 AS build
+FROM eclipse-temurin:11 AS build
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y git
 
 RUN git clone https://github.com/Islandora/Alpaca.git .
 
@@ -12,7 +14,7 @@ ENV GRADLE_USER_HOME=/app/.gradle
 RUN ./gradlew --stacktrace  clean build shadowJar --no-daemon
 
 # Build the Alpaca image
-FROM openjdk:11
+FROM eclipse-temurin:11
 WORKDIR /app
 
 COPY --from=build /app/islandora-alpaca-app/build/libs/islandora-alpaca-*-all.jar alpaca.jar
