@@ -1,3 +1,6 @@
 [submodule "AwsTranscribe"]
 	path = transcribe
 	url = https://github.com/asulibraries/AwsTranscribe.git
+[submodule "MergePDF"]
+	path = mergepdf
+	url = https://github.com/asulibraries/MergePDF.git

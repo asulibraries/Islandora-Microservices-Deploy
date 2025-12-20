@@ -1,16 +1,33 @@
 diff --git a/islandora-connector-derivative/src/main/java/ca/islandora/alpaca/connector/derivative/DerivativeConnector.java b/islandora-connector-derivative/src/main/java/ca/islandora/alpaca/connector/derivative/DerivativeConnector.java
-index 4d2f956..7e43fdb 100644
+index 6c3b8e4..3dca4af 100644
 --- a/islandora-connector-derivative/src/main/java/ca/islandora/alpaca/connector/derivative/DerivativeConnector.java
 +++ b/islandora-connector-derivative/src/main/java/ca/islandora/alpaca/connector/derivative/DerivativeConnector.java
-@@ -112,6 +112,11 @@ public class DerivativeConnector extends RouteBuilder {
-             .setHeader("Accept", simple("${exchangeProperty.event.attachment.content.mimetype}"))
-             .setHeader("X-Islandora-Args", simple("${exchangeProperty.event.attachment.content.args}"))
-             .setHeader("Apix-Ldp-Resource", simple("${exchangeProperty.event.attachment.content.sourceUri}"))
-+            .setHeader(
-+                "X-Islandora-FileUploadUri",
-+                simple("${exchangeProperty.event.attachment.content.fileUploadUri}")
-+            )
-+            .setHeader("X-Islandora-Destination", simple("${exchangeProperty.event.attachment.content.destinationUri}"))
+@@ -110,6 +110,14 @@ public class DerivativeConnector extends RouteBuilder {
+             // Make the Crayfish request.
+             .removeHeaders("*", "Authorization")
+             .setHeader(Exchange.HTTP_METHOD, constant("GET"))
++            // .setHeader(
++            //     "X-Islandora-FileUpload-Uri",
++            //     simple("${exchangeProperty.eventPojo.attachment.content.fileUploadUri}")
++            // )
++            // .setHeader(
++            //     "X-Islandora-Destination-Uri",
++            //     simple("${exchangeProperty.eventPojo.attachment.content.destinationUri}")
++            // )
+             .process(exchange -> {
+                 final String jsonEvent = exchange.getProperty("event", String.class);
+                 if (jsonEvent != null) {
+@@ -133,7 +141,12 @@ public class DerivativeConnector extends RouteBuilder {
+                     if (content.getSourceUri() != null) {
+                         exchange.getIn().setHeader("Apix-Ldp-Resource", content.getSourceUri());
+                     }
+-
++                    if (content.getFileUploadUri() != null) {
++                        exchange.getIn().setHeader("X-Islandora-FileUploadUri", content.getFileUploadUri());
++                    }
++                    if (content.getDestinationUri() != null) {
++                        exchange.getIn().setHeader("X-Islandora-Destination", content.getDestinationUri());
++                    }
+                 }
+             })
              .setBody(simple("${null}"))
-             .to(outputStream)
- 

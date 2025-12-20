@@ -4,11 +4,13 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y git
 
+# RUN git clone --branch Alpaca-2.2.0 --single-branch https://github.com/Islandora/Alpaca.git .
+
 RUN git clone https://github.com/Islandora/Alpaca.git .
 
-COPY alpaca-asu.patch .
+# COPY alpaca-asu.patch .
 
-RUN git apply alpaca-asu.patch
+# RUN git apply alpaca-asu.patch
 RUN chmod +x gradlew
 ENV GRADLE_USER_HOME=/app/.gradle
 RUN ./gradlew --stacktrace  clean build shadowJar --no-daemon
